@@ -1,0 +1,30 @@
+Loaded forms:
+
+* form1.pdf
+* form2.pdf
+* form3.pdf
+
+============================================================
+SINGLE FORM DEMO: form1.pdf
+===========================
+
+--- SUMMARY ---
+
+• Patient medical questionnaire form
+• The form includes checklist-style symptom/condition sections
+• No symptoms are explicitly confirmed unless boxes are visibly marked (✓/☑/[x])
+• Key identifiers, dates, and claim details are summarized only if present
+
+--- QUESTION ANSWERING ---
+
+Question: What symptoms, conditions, or medical issues are explicitly mentioned or confirmed in this form?
+
+Answer: The form contains a checklist of possible symptoms or conditions, but none appear to be explicitly marked as present in the provided form.
+
+============================================================
+MULTI-FORM DEMO
+===============
+
+Question: Across all forms, what diagnoses, confirmed conditions, or claim-related issues are mentioned?
+
+Answer: Not found in the provided forms.

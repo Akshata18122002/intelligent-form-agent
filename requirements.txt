@@ -1,0 +1,11 @@
+pdfplumber
+PyPDF2
+sentence-transformers
+faiss-cpu
+numpy
+openai
+python-dotenv
+spacy
+tqdm
+pytest
+streamlit
