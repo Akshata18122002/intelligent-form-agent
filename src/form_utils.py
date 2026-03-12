@@ -9,15 +9,14 @@ def detect_checked_symptoms(text: str) -> List[str]:
     - ✓
     - ✔
     - ☑
-    - [x] or [X]
+
 
     This intentionally does NOT treat patterns like '□Y□N Fever'
     as checked, because in blank forms they are just options.
     """
     checked_patterns = [
         r"[✓✔]\s*([A-Za-z][A-Za-z /-]*)",
-        r"☑\s*([A-Za-z][A-Za-z /-]*)",
-        r"\[(?:x|X)\]\s*([A-Za-z][A-Za-z /-]*)",
+        r"☑\s*([A-Za-z][A-Za-z /-]*)"
     ]
 
     symptoms: List[str] = []

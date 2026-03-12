@@ -1,96 +1,43 @@
-# Intelligent Form Agent – Read, Extract, and Explain
+## Intelligent Form Agent
 
-## Overview
+### Overview
 
-The **Intelligent Form Agent** is a document understanding system that processes and analyzes forms (such as medical intake forms, insurance claim forms, or registration forms).
-
-The agent can:
-
-* Extract text from PDF forms
-* Answer questions about individual forms
-* Generate concise summaries of forms
-* Provide holistic insights across multiple forms
-
-The system is built using a **Retrieval-Augmented Generation (RAG)** pipeline that combines semantic embeddings, vector search, and a language model to understand and reason about form content.
+**Intelligent Form Agent** is an AI-powered Retrieval-Augmented Generation (RAG) system for analyzing PDF forms such as medical intake, insurance, or registration documents. It extracts text from forms, answers natural language questions, generates concise summaries, and can compare multiple forms to surface cross-form patterns and insights.
 
 ---
 
 ## Features
 
-### 1. PDF Text Extraction
-
-The system extracts text from PDF forms using `pdfplumber`.
-
-### 2. Question Answering
-
-Users can ask questions about individual forms.
-
-Example query:
-
-```
-What symptoms, conditions, or medical issues are explicitly mentioned or confirmed in this form?
-```
-
-### 3. Form Summarization
-
-The agent generates concise summaries highlighting the most important information contained in a form.
-
-### 4. Multi-Form Insights
-
-The system can analyze multiple forms together to identify common themes or issues.
-
-Example query:
-
-```
-Across all forms, what diagnoses, confirmed conditions, or claim-related issues are mentioned?
-```
-
-### 5. Semantic Retrieval
-
-The system uses embeddings and FAISS to retrieve the most relevant sections of the form before sending them to the language model.
-
-### 6. Checklist-Aware Medical Reasoning
-
-Many medical PDFs include symptom checklists (often with Y/N boxes). This project is **checkbox-aware**:
-
-- Only treats symptoms/conditions as **present** when an item is explicitly marked with **✓ / ✔ / ☑ / [x]**.
-- Unmarked Y/N options (e.g., `□Y□N Fever`) are treated as **possible fields**, not confirmed findings.
+- **PDF form text extraction** using `pdfplumber` and related utilities.
+- **Question answering over forms** with a RAG pipeline.
+- **Automatic form summarization** to highlight key information.
+- **Multi-form insights** across several forms at once.
+- **Semantic retrieval with FAISS** and sentence-transformer embeddings.
+- **Checkbox-aware reasoning** for Y/N and checklist-style fields.
+- **Streamlit UI** for interactive exploration.
 
 ---
 
 ## Architecture
 
-The system follows a **Retrieval-Augmented Generation pipeline**:
+High-level processing pipeline:
 
-```
-PDF Forms
-   ↓
-Text Extraction (pdfplumber)
-   ↓
-Text Chunking
-   ↓
-Embedding Generation (Sentence Transformers)
-   ↓
-Vector Search (FAISS)
-   ↓
-Relevant Context Retrieval
-   ↓
-LLM Reasoning
-   ↓
-Answers, Summaries, Insights
-```
+`PDF → Text Extraction → Chunking → Embeddings → FAISS Retrieval → LLM Reasoning → Answer / Summary / Insights`
+
+For a detailed component-level explanation, see:
+
+[Architecture Documentation](docs/architecture.md)
 
 ---
 
 ## Project Structure
 
-```
-intelligent-form-agent
-│
-├── app
+```text
+intelligent-form-agent/
+├── app/
 │   └── app.py
-│
-├── src
+├── src/
+│   ├── __init__.py
 │   ├── extractor.py
 │   ├── chunker.py
 │   ├── embedder.py
@@ -101,199 +48,119 @@ intelligent-form-agent
 │   ├── summarizer.py
 │   ├── multi_form_agent.py
 │   └── demo.py
-│
-├── data
-│   └── forms
-│       ├── form1.pdf
-│       ├── form2.pdf
-│       └── form3.pdf
-│
-├── notebooks
-│   └── experiments.ipynb
-│
-├── tests
-│   ├── test_extractor.py
-│   ├── test_chunker.py
-│   ├── test_embedder.py
-│   └── test_retriever.py
-│
-├── docs
-│   └── architecture.md
-│
+├── tests/
+│   ├── conftest.py
+│   ├── chunker_test.py
+│   ├── embedder_test.py
+│   ├── extractor_test.py
+│   ├── retriever_test.py
+│   └── llm_test.py
+├── docs/
+│   ├── architecture.md
+│   └── example run.txt
 ├── requirements.txt
-├── README.md
-└── .env
+└── README.md
 ```
+
+- **app/**: Streamlit application and UI entry point.
+- **src/**: Core pipeline modules (extraction, chunking, embeddings, retrieval, LLM reasoning, summarization, multi-form analysis, demo).
+- **tests/**: Pytest-based tests for core components.
+- **docs/**: Additional documentation, including architecture and example runs.
+- **requirements.txt**: Python dependencies.
 
 ---
 
-## Setup Instructions
+## Setup
 
-### 1. Create Virtual Environment
+### 1. Clone the repository
 
+```bash
+git clone https://github.com/your-username/intelligent-form-agent.git
+cd intelligent-form-agent
 ```
+
+### 2. Create and activate a virtual environment (Windows)
+
+```bash
 python -m venv venv
-```
-
-Activate it:
-
-Windows
-
-```
 .\venv\Scripts\Activate
 ```
 
-Mac / Linux
+### 3. Install dependencies
 
-```
-source venv/bin/activate
-```
-
----
-
-### 2. Install Dependencies
-
-```
+```bash
 pip install -r requirements.txt
 ```
 
----
+### 4. Configure environment variables
 
-### 3. Add API Key
+Create a `.env` file in the project root:
 
-Create a `.env` file in the project root.
-
-Example:
-
-```
+```text
 OPENROUTER_API_KEY=your_api_key_here
 ```
 
----
+### 5. (Optional) Add sample forms
 
-### 4. Add Sample Forms
+Create a `data/forms/` directory and place one or more PDF forms inside it, for example:
 
-Place sample forms inside:
-
-```
-data/forms/
-```
-
-Example:
-
-```
+```text
 data/forms/form1.pdf
 data/forms/form2.pdf
-data/forms/form3.pdf
 ```
 
----
-
-## Running the Agent
-
-### Option A: Run the Streamlit UI
+### 6. Run the Streamlit app
 
 ```bash
-streamlit run .\app\app.py
+streamlit run app/app.py
 ```
 
-The UI supports:
+### 7. (Optional) Run the CLI demo
 
-- Uploading one or more PDFs
-- Processing (extract → chunk → embed → index)
-- Single-form QA
-- Per-form summary
-- Multi-form analysis
-- Inspecting extracted text
+From the project root:
 
-Notes:
-
-- If your PDFs contain checklist sections, the UI treats only **explicitly checked** items as present.
-- You may see a small caption under answers clarifying checklist interpretation.
-
-### Option B: Run the CLI demo
-
-```
+```bash
 python -m src.demo
 ```
 
-This will demonstrate:
-
-* form summarization
-* question answering
-* multi-form analysis
-
 ---
 
-## Example Runs
+## Demo
+
+### Application Interface
+<img src="docs/screenshots/app_ui.png" width="800">
+
+### Form Upload
+<img src="docs/screenshots/form_upload.png" width="800">
 
 ### Question Answering
-
-Example query:
-
-```
-What symptoms, conditions, or medical issues are explicitly mentioned or confirmed in this form?
-```
-
-Example output:
-
-```
-Respiratory symptoms such as coughing, shortness of breath,
-and wheezing are mentioned in the form.
-```
-
----
+<img src="docs/screenshots/qa.png" width="800">
 
 ### Form Summary
-
-Example output:
-
-```
-• Patient questionnaire form
-• Symptoms reported include fatigue and fever
-• Respiratory and cardiovascular issues mentioned
-• Medication and allergy information included
-```
+<img src="docs/screenshots/summary.png" width="800">
 
 ---
 
-### Multi-Form Insights
+## Example Use Cases
 
-Example query:
+Example prompts you can run through the UI or agents:
 
-```
-Across all forms, what diagnoses, confirmed conditions, or claim-related issues are mentioned?
-```
+- **Single-form QA**: `What symptoms does the patient report?`
+- **Form summarization**: `Summarize this form.`
+- **Cross-form analysis**: `What common symptoms appear across these forms?`
 
-Example output:
-
-```
-Respiratory symptoms, cardiovascular complaints,
-and gastrointestinal issues appear across multiple forms.
-```
+The system uses semantic retrieval plus LLM reasoning to answer these in a grounded way based on the underlying form content.
 
 ---
 
-## Running Tests
+## Technologies Used
 
-Run unit tests using:
-
-```
-pytest
-```
-
-Tests cover:
-
-* PDF text extraction
-* text chunking
-* embedding generation
-* semantic retrieval
-
-
-## Conclusion
-
-The Intelligent Form Agent demonstrates how modern NLP techniques and LLM-based reasoning can automate document understanding tasks.
-
-By combining semantic retrieval with language models, the system can extract information from forms, answer questions, generate summaries, and provide insights across multiple documents.
-
-This approach significantly reduces manual review effort and enables scalable document analysis workflows.
+- **Python** for the end-to-end pipeline.
+- **Streamlit** for the web UI.
+- **pdfplumber** for PDF text extraction.
+- **sentence-transformers** for text embeddings.
+- **FAISS (faiss-cpu)** for vector search.
+- **LLM API** accessed via `OPENROUTER_API_KEY` for reasoning, QA, and summarization.
+- **numpy** for text processing and utilities.
+- **python-dotenv** for configuration.
+- **pytest** for testing.
