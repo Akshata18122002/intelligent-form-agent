@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Intelligent Form Agent** is a document understanding system that processes and analyzes structured and semi-structured forms (such as medical intake forms, insurance claim forms, or registration forms).
+The **Intelligent Form Agent** is a document understanding system that processes and analyzes forms (such as medical intake forms, insurance claim forms, or registration forms).
 
 The agent can:
 
@@ -140,7 +140,7 @@ Activate it:
 Windows
 
 ```
-.\venv\Scripts\Activate.ps1
+.\venv\Scripts\Activate
 ```
 
 Mac / Linux
@@ -191,7 +191,7 @@ data/forms/form3.pdf
 
 ## Running the Agent
 
-### Option A: Run the Streamlit UI (recommended)
+### Option A: Run the Streamlit UI
 
 ```bash
 streamlit run .\app\app.py
@@ -289,19 +289,6 @@ Tests cover:
 * embedding generation
 * semantic retrieval
 
----
-
-## Creative Extensions
-
-Possible improvements include:
-
-* OCR support for scanned forms
-* layout-aware document models (e.g. LayoutLM)
-* structured field extraction
-* richer UI for uploading and querying forms (authentication, saved sessions, export)
-* visualization of multi-form insights
-
----
 
 ## Conclusion
 
